@@ -14,6 +14,26 @@ module.exports = {
         lightGreyMid: "#f2f4ff",
         lightGrey: "#f7f8fd",
       },
+      spacing: {
+        "30%": "30%",
+        "70%": "70%",
+      },
+      maxWidth: {
+        "1/4": "25%",
+        "3/4": "75%",
+        "30%": "30%",
+        "70%": "70%",
+      },
+      flex: {
+        "list-lg": "0 0 30%",
+        "feed-lg": "0 0 70%",
+        "feed-sm": "0 0 100%",
+      },
+      minHeight: {
+        16: "4rem",
+        20: "5rem",
+        24: "6rem",
+      },
     },
   },
   variants: {

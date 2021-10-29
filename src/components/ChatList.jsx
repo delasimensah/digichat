@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { IoEllipsisVertical, IoAddCircle } from "react-icons/io5";
 import axios from "axios";
 import moment from "moment";
+import parse from "html-react-parser";
 
 //mui
 import { Avatar, IconButton, Menu, MenuItem, Skeleton } from "@mui/material";
 
 const ChatList = (props) => {
-  console.log("chatlist props: ", props);
-  const { activeChat, setActiveChat, chats, connecting } = props;
+  const { activeChat, setActiveChat, chats, connecting, userName } = props;
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");
 
@@ -18,8 +18,8 @@ const ChatList = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
   };
 
   const handleClose = () => {
@@ -59,7 +59,7 @@ const ChatList = (props) => {
 
   return (
     <div className="flex flex-col h-full bg-lightGreyMid">
-      <div className="flex items-center justify-between p-3 bg-white">
+      <div className="flex items-center justify-between px-3 h-16 bg-white border-b border-r">
         {loading ? (
           <div className="flex items-center space-x-2">
             <Skeleton variant="circular" width={40} height={40} />
@@ -70,7 +70,7 @@ const ChatList = (props) => {
             <Avatar
               alt={userInfo?.username}
               src={userInfo?.avatar}
-              className="text-sm bg-gray-100 w-9 h-9"
+              className="bg-gray-100 w-9 h-9"
             />
             <h1 className="text-lg capitalize text-darkGrey">
               {userInfo?.username}
@@ -86,7 +86,7 @@ const ChatList = (props) => {
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
-          classes={{ paper: "shadow-md" }}
+          classes={{ paper: "shadow-md w-40" }}
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "right",
@@ -96,11 +96,12 @@ const ChatList = (props) => {
             horizontal: "right",
           }}
         >
+          <MenuItem>New Group</MenuItem>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </div>
 
-      <div className="flex justify-between p-3">
+      <div className="flex justify-between p-3 ">
         <h1 className="text-2xl font-medium text-darkGrey">Chats</h1>
 
         <IconButton className="p-0 hover:bg-transparent">
@@ -114,41 +115,46 @@ const ChatList = (props) => {
         ) : (
           <div className="p-2 space-y-3">
             {chats &&
-              Object.keys(chats)?.map((key) => {
-                const chat = chats[key];
+              Object.keys(chats)
+                ?.reverse()
+                .map((key) => {
+                  const chat = chats[key];
 
-                // console.log(chat);
+                  console.log("chat: ", chat);
+                  const receipient = chat?.people.find(
+                    (person) => person.person.username !== userName
+                  );
 
-                return (
-                  <div
-                    key={chat.id}
-                    className={`flex space-x-2 items-center p-3 rounded-lg shadow-lg cursor-pointer hover:bg-darkGreyMid hover:text-white ${
-                      activeChat === chat.id
-                        ? "bg-darkGreyMid text-white"
-                        : "bg-lightGrey"
-                    }`}
-                    onClick={() => setActiveChat(chat.id)}
-                  >
-                    <Avatar src={chat.last_message.sender.avatar} />
+                  return (
+                    <div
+                      key={chat.id}
+                      className={`flex space-x-2 items-center p-3 rounded-lg shadow-lg cursor-pointer hover:bg-darkGreyMid hover:text-white ${
+                        activeChat === chat.id
+                          ? "bg-darkGreyMid text-white"
+                          : "bg-lightGrey"
+                      }`}
+                      onClick={() => setActiveChat(chat.id)}
+                    >
+                      <Avatar src={receipient?.person.avatar} />
 
-                    <div className="flex-grow">
-                      <div className="flex items-center justify-between">
-                        <h1 className="text-lg font-medium capitalize">
-                          {chat.last_message.sender_username}
-                        </h1>
+                      <div className="flex-grow">
+                        <div className="flex items-center justify-between">
+                          <h1 className="text-lg font-medium capitalize">
+                            {receipient?.person.username}
+                          </h1>
 
-                        <p className="text-xs">
-                          {moment(chat.last_message.created).format("LT")}
-                        </p>
-                      </div>
+                          <p className="text-xs">
+                            {moment(chat.last_message.created).format("LT")}
+                          </p>
+                        </div>
 
-                      <div className="truncate md:w-28 lg:w-72">
-                        {chat.last_message.text}
+                        <div className="truncate md:w-28 lg:w-44 xl:w-60">
+                          {parse(chat.last_message.text)}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
           </div>
         )}
       </div>
