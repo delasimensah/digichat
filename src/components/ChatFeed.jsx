@@ -14,6 +14,7 @@ const ChatFeed = (props) => {
   const [loading, setLoading] = useState(false);
 
   const chat = chats && chats[activeChat];
+
   const receipient = chat?.people.find(
     (person) => person.person.username !== userName
   );
