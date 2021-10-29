@@ -1,14 +1,39 @@
 import React from "react";
 import parse from "html-react-parser";
 
+//mui
+import { CircularProgress } from "@mui/material";
+
 const Messages = ({ messages, username, loading }) => {
   return (
     <div className="flex-grow overflow-x-hidden overflow-y-auto bg-lightGrey p-5 md:px-5 md:py-10 space-y-3 flex flex-col">
       {loading ? (
-        <div>Loading...</div>
+        <div className="flex items-center justify-center">
+          <CircularProgress />
+        </div>
       ) : (
         <>
           {messages.map((message, idx) => {
+            if (message.attachments && message.attachments.length > 0) {
+              return (
+                <a
+                  href={message.attachments[0].file}
+                  className="w-72 h-auto"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src={message.attachments[0].file}
+                    alt=""
+                    className={`w-full bg-gray-300 min-h-24 rounded-md object-cover cursor-pointer ${
+                      message.sender.username === username
+                        ? "self-end"
+                        : "self-start"
+                    }`}
+                  />
+                </a>
+              );
+            }
             return (
               <span
                 key={idx}

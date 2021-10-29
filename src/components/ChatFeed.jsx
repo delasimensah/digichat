@@ -7,10 +7,12 @@ import Messages from "./Messages";
 import MessageForm from "./MessageForm";
 
 const ChatFeed = (props) => {
+  // console.log("feed: ", props);
   const { activeChat, messages, chats, setMessages, connecting, userName } =
     props;
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");
+
   const [loading, setLoading] = useState(false);
 
   const chat = chats && chats[activeChat];
@@ -61,7 +63,7 @@ const ChatFeed = (props) => {
       <Messages messages={newMessages} loading={loading} username={userName} />
 
       {/* message form */}
-      <MessageForm />
+      <MessageForm chatId={activeChat} {...props} />
     </div>
   );
 };
