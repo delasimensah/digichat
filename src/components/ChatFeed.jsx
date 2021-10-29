@@ -57,7 +57,7 @@ const ChatFeed = (props) => {
   return (
     <div className="flex flex-col h-full overflow-hidden">
       {/* header */}
-      <FeedHeader receipient={receipient} />
+      <FeedHeader receipient={receipient} {...props} />
 
       {/* messages */}
       <Messages messages={newMessages} loading={loading} username={userName} />
