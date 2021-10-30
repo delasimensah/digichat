@@ -14,6 +14,9 @@ const Chat = () => {
       userSecret={localStorage.getItem("password")}
       renderChatList={(chatAppState) => <ChatList {...chatAppState} />}
       renderChatFeed={(chatAppState) => <ChatFeed {...chatAppState} />}
+      renderChatSettings={() => {
+        return null;
+      }}
       onNewMessage={(_, message) => {
         if (message.sender.username !== username) {
           new Audio(
