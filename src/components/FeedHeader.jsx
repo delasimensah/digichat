@@ -9,7 +9,7 @@ import {
   Menu,
   MenuItem,
   IconButton,
-  SwipeableDrawer,
+  Drawer,
   Dialog,
   DialogActions,
   Button,
@@ -117,7 +117,7 @@ const FeedHeader = ({ receipient, ...otherProps }) => {
         </Menu>
       </div>
 
-      <SwipeableDrawer
+      <Drawer
         anchor="left"
         open={drawerOpen}
         onClose={toggleDrawer}
@@ -126,7 +126,7 @@ const FeedHeader = ({ receipient, ...otherProps }) => {
         <div className="h-full w-80">
           <ChatList {...otherProps} />
         </div>
-      </SwipeableDrawer>
+      </Drawer>
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Are you sure you want to delete chat?</DialogTitle>

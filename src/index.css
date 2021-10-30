@@ -35,7 +35,7 @@
   background: var(--darkGrey);
 }
 
-@layer components {
+/* @layer components {
   .ce-chat-list-column {
     @apply hidden md:block md:w-30% flex-list-lg md:max-w-30% !important;
   }
@@ -44,13 +44,42 @@
     @apply w-full max-w-full flex-feed-sm md:flex-feed-lg md:w-70% md:max-w-70% !important;
   }
 
-  .ce-settings-column {
-    display: none !important;
-    width: 0 !important;
-    border: 1px solid black;
-  }
-
   .ce-wrapper {
     @apply overflow-hidden !important;
   }
+} */
+
+.ce-chat-list-column {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .ce-chat-list-column {
+    width: 30% !important;
+    max-width: 30% !important;
+    flex: 0 0 30% !important;
+  }
+}
+
+.ce-chat-feed-column {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 0 0 100% !important;
+}
+
+@media (min-width: 768px) {
+  .ce-chat-feed-column {
+    width: 70% !important;
+    max-width: 70% !important;
+    flex: 0 0 70% !important;
+  }
+}
+
+.ce-settings-column {
+  display: none !important;
+  width: 0 !important;
+}
+
+.ce-wrapper {
+  overflow: hidden !important;
 }
