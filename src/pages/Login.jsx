@@ -64,7 +64,6 @@ const Login = () => {
             variant="contained"
             className="inline-block mt-5 capitalize shadow-none bg-mypurple"
             onClick={handleSubmit}
-            loading={loading}
             disabled={username === "" || password === ""}
           >
             {loading ? "Loading..." : "Login/SignUp"}

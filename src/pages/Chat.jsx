@@ -5,19 +5,22 @@ import ChatList from "../components/ChatList";
 import ChatFeed from "../components/ChatFeed";
 
 const Chat = () => {
+  const username = localStorage.getItem("username");
   return (
     <ChatEngine
       height="100vh"
       projectID={process.env.REACT_APP_PROJECT_ID}
-      userName={localStorage.getItem("username")}
+      userName={username}
       userSecret={localStorage.getItem("password")}
       renderChatList={(chatAppState) => <ChatList {...chatAppState} />}
       renderChatFeed={(chatAppState) => <ChatFeed {...chatAppState} />}
-      onNewMessage={() =>
-        new Audio(
-          "https://chat-engine-assets.s3.amazonaws.com/click.mp3"
-        ).play()
-      }
+      onNewMessage={(_, message) => {
+        if (message.sender.username !== username) {
+          new Audio(
+            "https://chat-engine-assets.s3.amazonaws.com/click.mp3"
+          ).play();
+        }
+      }}
     />
   );
 };

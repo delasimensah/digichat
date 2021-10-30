@@ -55,7 +55,7 @@ const ListHeader = () => {
   }, [username, password]);
 
   return (
-    <div className="flex items-center justify-between px-3 h-16 bg-white border-b border-r">
+    <div className="flex items-center justify-between h-16 px-3 bg-white border-b border-r">
       {loading ? (
         <div className="flex items-center space-x-2">
           <Skeleton variant="circular" width={40} height={40} />
@@ -92,7 +92,7 @@ const ListHeader = () => {
           horizontal: "right",
         }}
       >
-        <MenuItem>New Group</MenuItem>
+        {/* <MenuItem>New Group</MenuItem> */}
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </div>

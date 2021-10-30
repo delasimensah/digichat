@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 import { IoEllipsisVertical, IoCaretBackOutline } from "react-icons/io5";
 
@@ -9,12 +10,22 @@ import {
   MenuItem,
   IconButton,
   SwipeableDrawer,
+  Dialog,
+  DialogActions,
+  Button,
+  DialogTitle,
 } from "@mui/material";
 
 //components
 import ChatList from "./ChatList";
 
 const FeedHeader = ({ receipient, ...otherProps }) => {
+  const { activeChat, setActiveChat } = otherProps;
+
+  const username = localStorage.getItem("username");
+  const password = localStorage.getItem("password");
+
+  //menu dropdown
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -25,12 +36,42 @@ const FeedHeader = ({ receipient, ...otherProps }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  //mobile menu
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
+
+  //delete dialog
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+    setAnchorEl(null);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const deleteChat = async () => {
+    try {
+      await axios.delete(`https://api.chatengine.io/chats/${activeChat}/`, {
+        headers: {
+          "Project-ID": process.env.REACT_APP_PROJECT_ID,
+          "User-Name": username,
+          "User-Secret": password,
+        },
+      });
+
+      setActiveChat(null);
+      setOpenDialog(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="flex items-center justify-between px-3 border-b min-h-16">
@@ -71,8 +112,8 @@ const FeedHeader = ({ receipient, ...otherProps }) => {
             horizontal: "right",
           }}
         >
-          <MenuItem>Clear Messages</MenuItem>
-          <MenuItem>Delete Chat</MenuItem>
+          {/* <MenuItem>Clear Messages</MenuItem> */}
+          <MenuItem onClick={handleOpenDialog}>Delete Chat</MenuItem>
         </Menu>
       </div>
 
@@ -86,6 +127,22 @@ const FeedHeader = ({ receipient, ...otherProps }) => {
           <ChatList {...otherProps} />
         </div>
       </SwipeableDrawer>
+
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Are you sure you want to delete chat?</DialogTitle>
+
+        <DialogActions>
+          <Button
+            onClick={handleCloseDialog}
+            className="capitalize text-darkGrey"
+          >
+            No
+          </Button>
+          <Button onClick={deleteChat} className="text-red-500 capitalize">
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

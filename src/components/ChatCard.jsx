@@ -26,12 +26,13 @@ const ChatCard = ({ activeChat, setActiveChat, chat, username }) => {
           </h1>
 
           <p className="text-xs">
-            {moment(chat.last_message.created).format("LT")}
+            {chat.last_message.created &&
+              moment(chat.last_message.created).format("LT")}
           </p>
         </div>
 
         <div className="truncate md:w-28 lg:w-44 xl:w-60">
-          {parse(chat.last_message.text)}
+          {chat.last_message.text && parse(chat.last_message.text)}
         </div>
       </div>
     </div>

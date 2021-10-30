@@ -31,7 +31,7 @@ const ChatFeed = (props) => {
     const fetchMessages = async () => {
       setLoading(true);
       try {
-        if (!connecting) {
+        if (!connecting && activeChat) {
           const response = await axios.get(
             `https://api.chatengine.io/chats/${activeChat}/messages/latest/45/`,
             {
@@ -53,6 +53,16 @@ const ChatFeed = (props) => {
 
     fetchMessages();
   }, [password, username, activeChat, setMessages, connecting]);
+
+  if (!activeChat) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full overflow-hidden">
+        <h1 className="text-xl font-medium">
+          Create New Chat or Select Existing Chat
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
