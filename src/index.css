@@ -55,6 +55,7 @@
 
 @media (min-width: 768px) {
   .ce-chat-list-column {
+    display: block;
     width: 30% !important;
     max-width: 30% !important;
     flex: 0 0 30% !important;
