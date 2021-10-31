@@ -17,13 +17,11 @@ const Chat = () => {
       renderChatSettings={() => {
         return null;
       }}
-      onNewMessage={(_, message) => {
-        if (message.sender.username !== username) {
-          new Audio(
-            "https://chat-engine-assets.s3.amazonaws.com/click.mp3"
-          ).play();
-        }
-      }}
+      onNewMessage={(_, message) =>
+        new Audio(
+          "https://chat-engine-assets.s3.amazonaws.com/click.mp3"
+        ).play()
+      }
     />
   );
 };
